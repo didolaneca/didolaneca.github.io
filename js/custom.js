@@ -90,21 +90,58 @@
         }
     }
     portfolioMasonry();
-    
+
     // Portfolio popup
     $('.popup').magnificPopup({
         type: 'image',
+        mainClass: 'mfp-with-zoom',
+        zoom: {
+            enabled: true,
+            duration: 300,
+            easing: 'ease-in-out'
+        },
         gallery: {
             // options for gallery
-            enabled: true
+            enabled: false
         },
         image: {
             // options for image content type
+            markup: '<div class="mfp-figure">'+
+                        '<div class="mfp-close"></div>'+
+                        '<div class="mfp-img"></div>'+
+                        '<div class="mfp-bottom-bar">'+
+                            '<div class="mfp-title"></div>'+
+                            '<div class="mfp-counter"></div>'+
+                        '</div>'+
+                    '</div>', 
             titleSrc: function(item) {
                 return item.el.attr("title") + "<small>" + item.el.attr("data-desc") + "</small>"
+            },
+            verticalFit: true
+        },
+        closeOnContentClick: false,
+        callbacks: {
+            beforeOpen: function(item){
+                var magnificPopup = $.magnificPopup.instance;
+                console.log(magnificPopup.st.el.context.attributes[3].nodeValue);
+                return magnificPopup.st.el.context.attributes[3].nodeValue;
+                
+            },
+            open: function(item){
+                $('.mfp-img').on('click', function(){
+                    var magnificPopup = $.magnificPopup.instance;
+                    console.log(magnificPopup.st.el.context.attributes[3].nodeValue);
+                    window.location = magnificPopup.st.el.context.attributes[3].nodeValue;
+                });
             }
         }
+        
     });
+    // Added link for portfolio DS
+    $('.mfp-img').on('click', function(e){
+        alert('Hi');
+    });
+    // End link for portfolio DS 
     
     /*===========Start testimonialdslider js ===========*/
     function testimonialdslider(){
